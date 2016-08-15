@@ -1,0 +1,16 @@
+<?php 
+/**
+ * This file is part of Cms
+ *
+ * (c) 2014 Keon Nguyen <cuongmits@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+?>
+<div class="block">
+    <?php if ($this->blockTitle) { ?>
+        <div class="block-title"><?php echo $this->blockTitle ?></div>
+    <?php } ?>
+    <?php echo $this->content; ?>
+</div>

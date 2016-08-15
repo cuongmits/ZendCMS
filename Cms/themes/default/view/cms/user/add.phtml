@@ -1,0 +1,114 @@
+<?php 
+$title = 'Add User';
+$this->headTitle($title); 
+$this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-datetimepicker.min.css');
+//$this->headLink()->prependStylesheet($this->basePath() . '/css/styles-bootstrap-datetimepicker.css');
+$this->headScript()->appendFile($this->basePath() . '/ckeditor/ckeditor.js');
+if ($this->message == MESSAGE_ITEM_DOESNT_EXIST) {
+    echo "<div class='alert alert-danger'>$this->message</div>";
+} else {
+    if ($this->message == MESSAGE_INVALID) {
+        echo "<div class='alert alert-danger'>$this->message. Confirm Password not match.</div>";
+    } elseif ($this->message == MESSAGE_SUCCESS) {
+        echo "<div class='alert alert-success'>$this->message</div>";
+    }?>
+<h1><?php echo $this->escapeHTML($title); ?></h1>
+<?php
+    $form = $this->form;
+    $form->setAttribute('action', $this->url('home/User', array(
+        'controller' => 'User',
+        'action' => 'add',
+    )));
+    $form->prepare();
+
+    echo $this->form()->openTag($form). PHP_EOL;
+    echo $this->formHidden($form->get('id')). PHP_EOL; 
+    ?>
+    <div class="form-group element_submit">
+        <?php 
+        $form->get('submit')->setAttribute('class', 'btn btn-default'); //for style
+        echo $this->formRow($form->get('submit')). PHP_EOL; ?>
+    </div>            
+    <div class='row'>
+        <div class='col-xs-12 col-sm-6 col-md-4 col-lg-4'>
+            <div class="form-group user_login">
+                <?php 
+                $form->get('userLogin')->setAttribute('class', 'form-control'); //for style
+                $form->get('userLogin')->setAttribute('id', 'userLogin'); //for label wrapper
+                echo $this->formRow($form->get('userLogin')). PHP_EOL; 
+                echo $this->formElementErrors($form->get('userLogin')). PHP_EOL;?>
+            </div>
+            <div class="form-group user_pass">
+                <?php 
+                $form->get('userPass')->setAttribute('class', 'form-control'); //for style
+                $form->get('userPass')->setAttribute('id', 'userPass'); //for label wrapper
+                echo $this->formRow($form->get('userPass')). PHP_EOL; ?>
+            </div>
+            <div class="form-group user_pass">
+                <?php 
+                $form->get('userConfirmPass')->setAttribute('class', 'form-control'); //for style
+                $form->get('userConfirmPass')->setAttribute('id', 'userConfirmPass'); //for label wrapper
+                echo $this->formRow($form->get('userConfirmPass')). PHP_EOL; ?>
+            </div>
+        </div>
+        <div class='col-xs-12 col-sm-6 col-md-4 col-lg-4'>
+            <div class="form-group display_name">
+                <?php 
+                $form->get('displayName')->setAttribute('class', 'form-control'); //for style
+                $form->get('displayName')->setAttribute('id', 'displayName'); //for label wrapper
+                echo $this->formRow($form->get('displayName')). PHP_EOL;?>
+                <!--<label>Excerpt</label>
+                <textarea id="postExcerpt" class='form-control' name="postExcerpt" rows="5" cols="80"></textarea>-->
+            </div>
+            <div class="form-group user_nicename">
+                <?php 
+                $form->get('userNicename')->setAttribute('class', 'form-control'); //for style
+                $form->get('userNicename')->setAttribute('id', 'userNicename'); //for label wrapper
+                echo $this->formRow($form->get('userNicename')). PHP_EOL; ?>
+            </div>
+            <div class="form-group user_email">
+                <?php 
+                $form->get('userEmail')->setAttribute('class', 'form-control'); //for style
+                $form->get('userEmail')->setAttribute('id', 'userEmail'); //for label wrapper
+                echo $this->formRow($form->get('userEmail')). PHP_EOL;  ?>
+            </div>
+        </div>
+        <div class='col-xs-12 col-sm-6 col-md-4 col-lg-4'>
+            <div class="form-group userRole">
+                <label for="userRole">Role</label>
+                <select name="userRole" id="userRole" class='form-control'>
+                    <option value='1'>Administrator</option>
+                    <option value='2'>Editor</option>
+                    <option value='3'>Author</option>
+                    <option value='4'>Contributor</option>
+                    <option value='5'>Subscriber</option>
+                </select>
+            </div>
+            <div class="form-group user_status">
+                <?php 
+                $form->get('userStatus')->setAttribute('class', 'form-control'); //for style
+                $form->get('userStatus')->setAttribute('id', 'userStatus'); //for label wrapper
+                echo $this->formRow($form->get('userStatus')). PHP_EOL; 
+                echo $this->formElementErrors($form->get('userStatus')). PHP_EOL;?>
+            </div>
+            <div class="form-group user_activation_key">
+                <?php 
+                $form->get('userActivationKey')->setAttribute('class', 'form-control'); //for style
+                $form->get('userActivationKey')->setAttribute('id', 'userActivationKey'); //for label wrapper
+                echo $this->formRow($form->get('userActivationKey')). PHP_EOL;?>
+            </div>
+                <?php 
+                $form->get('userRegistered')->setAttribute('type', 'hidden');
+                echo $this->formElement($form->get('userRegistered')). PHP_EOL;?>
+        </div>
+    </div>
+    <div class="form-group user_url">
+        <?php 
+        $form->get('userUrl')->setAttribute('class', 'form-control'); //for style
+        $form->get('userUrl')->setAttribute('id', 'userUrl'); //for label wrapper
+        echo $this->formRow($form->get('userUrl')). PHP_EOL; ?>
+    </div>
+
+    <?php echo $this->form()->closeTag(); ?>
+
+<?php } ?>

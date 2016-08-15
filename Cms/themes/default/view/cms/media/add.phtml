@@ -1,0 +1,68 @@
+<?php
+$title = 'Upload New Media';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHTML($title); ?></h1>
+<style>
+    div.progress {
+        margin-bottom: 8px;
+    }
+</style>
+<script>
+function uploadFile(){
+    $("#progress-bar")[0].innerHTML = '';
+    var fileInput = document.getElementById('image-file');
+    for (var i=0; i<fileInput.files.length; ++i) {
+        var span = $("<span>" + "<div class='progress'><div class='progress-bar'></div></div></span>");
+        $("#progress-bar").append(span);
+        span.hide().fadeIn();
+        var formdata = new FormData();
+        formdata.append("image-file", fileInput.files[i]);
+        console.log(fileInput.files[i]);
+        var ajax = new XMLHttpRequest();
+        ajax.upload.span = span;
+        ajax.upload.progressbar = span.find(".progress-bar");
+        ajax.upload.filename = fileInput.files[i].name;
+        ajax.upload.addEventListener("progress", function(event) {
+            var percent = Math.round((event.loaded / event.total) * 100);
+            this.progressbar.width(percent + '%');
+            this.progressbar[0].innerHTML = this.filename;
+        }, false);
+        ajax.span = span;
+        ajax.progressbar = span.find(".progress-bar");
+        ajax.filename = fileInput.files[i].name;
+        ajax.addEventListener("load", function(event) {
+            console.log('EventListener: load');
+            console.log(event);
+            response = JSON.parse(event.target.responseText);
+            this.progressbar[0].innerHTML = response.message;
+            if (response.res == 0) {
+                this.progressbar[0].innerHTML = this.filename + response.message;
+                this.progressbar[0].className += " progress-bar-danger";
+            }
+        }, false);
+        ajax.addEventListener("error", function(event) {
+            console.log('EventListener: error');
+            console.log(event);
+            this.span.find('.uploadMessage').append("Upload Failed");
+        }, false);
+        ajax.addEventListener("abort", function(event) {
+            console.log('EventListener: abort');
+            console.log(event);
+            this.span.find('.uploadMessage').append("Upload Aborted");
+        }, false);
+        url = '<?php echo $this->url('home/Media', array('controller' => 'Media', 'action' => 'add')); ?>';
+        ajax.open("POST", url);
+        ajax.send(formdata);
+    }
+}
+</script>
+<form action="" method="POST" name="upload-form" enctype="multipart/form-data" id="upload-form">        
+    <div class="form-group">
+        <input type="file" name="image-file[]" id="image-file" multiple="multiple">
+    </div>
+    <div class="form-group">
+        <input type="button" value="Upload" onclick="uploadFile()" class="btn btn-default">
+    </div>
+    <div id="progress-bar"></div>
+</form>

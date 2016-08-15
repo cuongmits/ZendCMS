@@ -1,0 +1,115 @@
+<?php 
+/**
+ * This file is part of Cms
+ *
+ * (c) 2014 Keon Nguyen <cuongmits@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+$title = 'Categories';
+$this->headTitle($title);
+if ($this->message == MESSAGE_INVALID) {
+    echo "<div class='alert alert-danger'>$this->message. Slug is empty or already exists.</div>";
+} elseif ($this->message == MESSAGE_SUCCESS) {
+    echo "<div class='alert alert-success'>$this->message</div>";
+}
+?>
+<h1><?php echo $this->escapeHTML($title); ?></h1>
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url('home/Category', array('action' => 'index',)));
+$form->prepare(); 
+//var_dump($this);
+//var_dump($this->test);
+//var_dump($this->parent);
+//var_dump($this->ar);
+?>
+
+<div class='row'>
+    <div class='col-xs-12 col-sm-5 col-md-5 col-lg-4'>
+        <?php 
+        echo $this->form()->openTag($form). PHP_EOL; ?>
+        <div class="form-group name">
+            <?php 
+            $form->get('name')->setAttribute('class', 'form-control'); //for style
+            $form->get('name')->setAttribute('id', 'name'); //for label wrapper
+            echo $this->formRow($form->get('name')). PHP_EOL; 
+            echo "<em>".$form->get('name')->getOptions()['description']."</em>". PHP_EOL; ?>
+        </div>
+        <div class="form-group slug">
+            <?php 
+            $form->get('slug')->setAttribute('class', 'form-control'); //for style
+            $form->get('slug')->setAttribute('id', 'slug'); //for label wrapper
+            echo $this->formRow($form->get('slug')). PHP_EOL; 
+            echo "<em>".$form->get('slug')->getOptions()['description']."</em>". PHP_EOL; ?>
+        </div>
+        <div class="form-group parent">
+            <?php 
+            $form->get('parent')->setAttribute('class', 'form-control'); //for style
+            $form->get('parent')->setAttribute('id', 'parent'); //for label wrapper
+            echo $this->formRow($form->get('parent')). PHP_EOL; 
+            echo "<em>".$form->get('parent')->getOptions()['description']."</em>". PHP_EOL; ?>
+        </div>
+        <div class="form-group description">
+            <?php 
+            $form->get('description')->setAttribute('class', 'form-control'); //for style
+            $form->get('description')->setAttribute('id', 'description'); //for label wrapper
+            echo $this->formRow($form->get('description')). PHP_EOL; 
+            echo "<em>".$form->get('description')->getOptions()['description']."</em>". PHP_EOL;?>
+        </div>
+        <div class="form-group element_submit">
+            <?php 
+            $form->get('submit')->setAttribute('class', 'btn btn-default'); //for style
+            echo $this->formRow($form->get('submit')). PHP_EOL; ?>
+        </div>
+        <?php echo $this->form()->closeTag(); ?>
+    </div>
+    <div class='col-xs-12 col-sm-7 col-md-7 col-lg-8'>
+        <div class="form-group category-list-box">
+            <?php //echo $this->categories_html; ?>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox"></th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Slug</th>
+                        <th>Posts</th>
+                        <th>#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach ($this->categories as $category) {
+                        echo '<tr>';
+                        echo '<td><input type="checkbox" value="'.$category->getTermId().'"></td>';
+                        echo '<td>'.$category->getName().'</td>' ;
+                        $categoryTaxonomy;
+                        foreach ($category->getTermTaxonomies() as $termTaxonomy) {
+                            if ($termTaxonomy->getTaxonomy()=='category') 
+                                $categoryTaxonomy = $termTaxonomy;
+                        }
+                        echo '<td>'.$termTaxonomy->getDescription().'</td>';
+                        echo '<td>'.$category->getSlug().'</td>' ;
+                        echo '<td>'.$categoryTaxonomy->getCount().'</td>' ;
+                        echo '<td>'
+                        . '<a href="'.$this->url('home/Category', array(
+                            'action' => 'edit', 'id' => $category->getTermId()
+                        )).'">Edit</a>'
+                        . ' | <a href="'.$this->url('home/Category', array(
+                            'action' => 'delete', 'id' => $category->getTermId()
+                        )).'">Delete</a>'
+                        . ' | <a target="_blank" href="'.$this->url('home').$termTaxonomy->getTerm()->getSlug().'">View</a>'
+                        . '</td>';
+                        echo '</tr>';
+                    }?>
+                </tbody>
+            </table>
+            
+        </div>
+    </div>
+</div>
+
+        

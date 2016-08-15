@@ -1,0 +1,107 @@
+<div class="alert alert-warning alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong>Message:</strong> Thanks for using XXiSolution CMS Module, for the newest version please check <a href="http://xxisolution.com/">www.xxisolution.com</a>
+</div>
+<div class='row'>
+    <div class='col-xs-12 col-sm-12 col-md-7 col-lg-7 center'>
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">Posts</div>
+            <div class="panel-body">
+              <p>Last <?php echo $this->escapeHtml(count($this->posts)); ?> created posts</p>
+            </div>
+
+            <!-- Table -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Url</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach ($this->posts as $post) {
+                        echo '<tr>';
+                        echo '<td>'.$post->getPostTitle().'</td>' ;
+                        echo '<td><a target="_blank" href="'.$this->url('home').$post->getPostName().'">View</a></td>' ;
+                        echo '<td>'.(string)$post->getPostDate()->format('m/d/Y H:i:s').'</td>' ;
+                        echo '</tr>';
+                    }?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class='col-xs-12 col-sm-12 col-md-5 col-lg-5'>
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">Comments</div>
+            <div class="panel-body">
+              <p>Last <?php echo $this->escapeHtml(count($this->comments)); ?> created comments</p>
+            </div>
+
+            <!-- Table -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Author</th>
+                        <th>Comment</th>
+                        <th>In Response To</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach ($this->comments as $comment) {
+                        echo '<tr>';
+                        echo '<td>'.$comment->comment_author
+                                .'<small><br /><a href="mailto:'.$comment->comment_author_email.'">'.$comment->comment_author_email.'</a><br />'. $comment->comment_author_IP.'</small></td>' ;
+                        echo '<td><small>Submitted on '.$comment->comment_date.'</small><br />'.$comment->comment_content.'</td>' ;
+                        echo '<td><span class="badge">n</span> comments in post #'.$comment->comment_post_ID.' (View)</td>' ;
+                        echo '</tr>';
+                    }?>
+                </tbody>
+            </table>
+        </div>
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">Users</div>
+            <div class="panel-body">
+              <p>Last <?php echo $this->escapeHtml(count($this->users)); ?> registered users</p>
+            </div>
+
+            <!-- Table -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach ($this->users as $user) {
+                        foreach ($user->getUsermetas() as $userMeta) {
+                            if ($userMeta->getMetaKey() == 'wp_capabilities') {
+                                if (strpos($userMeta->getMetaValue(), 'administrator')!== false)
+                                    $userRole = 'administrator';
+                                elseif (strpos($userMeta->getMetaValue(), 'editor')!== false)
+                                    $userRole = 'editor';
+                                elseif (strpos($userMeta->getMetaValue(), 'author')!== false)
+                                    $userRole = 'author';
+                                elseif (strpos($userMeta->getMetaValue(), 'contributor')!== false)
+                                    $userRole = 'contributor';
+                                else 
+                                    $userRole = 'subscriber';
+                            }
+                        }
+                        echo '<tr>';
+                        echo '<td>'.$user->getUserNicename().'</td>' ;
+                        echo '<td>'.$userRole.'</td>' ;
+                        echo '</tr>';
+                    }?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

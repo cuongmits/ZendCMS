@@ -1,0 +1,11 @@
+<div class="block-item">
+    <?php if (!is_null($this->blockItemTitle)) { ?>
+        <div class="block-item-title"><?php echo $this->blockItemTitle ?></div>
+    <?php } ?>
+    <ul>
+    <?php 
+    foreach($this->termTaxonomies as $termTaxonomy) { 
+        echo '<li><a href="'.$this->url('home').$termTaxonomy->getTerm()->getSlug().'">'.$termTaxonomy->getTerm()->getName().'</a></li>';
+    }?>
+    </ul>
+</div>

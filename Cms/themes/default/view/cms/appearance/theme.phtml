@@ -1,0 +1,65 @@
+<?php 
+/**
+ * This file is part of Cms
+ *
+ * (c) 2014 Keon Nguyen <cuongmits@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+$title = 'Template Setting';
+$this->headTitle($title);
+if ($this->message == MESSAGE_ITEM_ALREADY_EXISTS || $this->message == MESSAGE_INVALID) {
+    echo "<div class='alert alert-danger'>$this->message. Slug can be duplicated.</div>";
+} elseif ($this->message == MESSAGE_SUCCESS) {
+    echo "<div class='alert alert-success'>$this->message</div>";
+}?>
+<h1><?php echo $this->escapeHTML($title); ?> 
+    <small>Choose Template for your site</small></h1>
+<div class='row'>
+<?php
+foreach ($this->themes as $key => $theme) { ?>
+    <div class="theme">
+        <div class="theme-thumb">
+            <img src="<?php echo SITE_URL.$this->escapeHTML($key).'/'.$this->escapeHTML($theme['thumb']); ?>">
+        </div>
+        
+        <div class="theme-author"><?php echo $this->escapeHTML($theme['author']) ?></div>
+        <h3 class="theme-name"><?php echo $this->escapeHTML($theme['name']) ?></h3>
+        <div class="theme-actions">
+            <?php 
+            if ($this->currentTheme == $key) {
+                echo '<b>Activated</b>';
+            } else { ?>
+            <a class="activate" href="<?php echo $this->url('home/Appearance', array(
+                            'action' => 'theme', 'themename' => $this->escapeHTML($key)
+                        )) ?>">Activate</a>
+            <?php } ?>
+            | <a class="view" href="#" data-toggle="modal" data-target="#myModal_<?php echo $key; ?>">View</a>
+            <?php if (!is_null($theme['demo'])) {?>
+            | <a target="_blank" class="demo" href="<?php echo $this->escapeHTML($theme['demo']) ?>">Demo</a>
+            <?php } ?>
+        </div>
+        <span class="theme-detail"><?php echo $this->escapeHTML($theme['detail']) ?></span>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal_<?php echo $key; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <b><?php echo $this->escapeHTML($theme['name']) ?></b> <i>by</i> <b><?php echo $this->escapeHTML($theme['author']) ?></b>
+                </div>
+                <div class="modal-body">
+                    <center><img src="<?php echo SITE_URL.$this->escapeHTML($key).'/'.$this->escapeHTML($theme['thumb']); ?>"></center>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+<?php
+}
+?>
+</div>

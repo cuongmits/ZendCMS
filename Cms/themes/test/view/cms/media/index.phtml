@@ -1,0 +1,97 @@
+<?php 
+//$this->headScript()->appendFile($this->basePath() . '/ckeditor/ckeditor.js');
+$title = 'All Media';
+$this->headTitle($title); 
+//var_dump($this->posts);
+//var_dump($this->test);
+//var_dump($this->test);
+//var_dump($this->this2);
+//var_dump($this->this1);
+//var_dump($this->this);
+
+?>
+<h1><?php echo $this->escapeHTML($title); ?></h1>
+<div class='row'>
+    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <h4>Quantity: <?php echo $this->medias_quantity; ?></h4>
+    </div>
+    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <form class="navbar-form navbar-right">
+            <div class='row'>
+                <div class='col-xs-12 col-sm-6 col-md-6 col-lg-7'>
+                    <input type="text" class="form-control post-search" placeholder="Search...">
+                </div>
+                <div class='col-xs-12 col-sm-6 col-md-6 col-lg-5'>
+                    <input name="submit" type="submit" value="Search Media" class='btn btn-default'>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-hover">
+      <thead>
+          <tr>
+              <th><input type="checkbox"></th>
+              <th></th>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Date</th>
+              <th>#</th>
+          </tr>
+      </thead>
+      <tfoot>
+          <tr>
+              <th><input type="checkbox"></th>
+              <th></th>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Date</th>
+              <th>#</th>
+          </tr>
+      </tfoot>
+      <tbody>
+          <?php
+          foreach ($this->medias as $media) {
+              echo '<tr>';
+              echo '<td><input type="checkbox" value="'.$media->getId().'"></td>';
+              //preview
+              $extension = pathinfo(basename($media->getGuid()), PATHINFO_EXTENSION);
+              if ($extension=='png'||$extension=='jpg'||$extension=='gif'||$extension=='jpeg') {
+                  echo '<td><img width="50px" height="50px" src="'.$media->getGuid().'"></td>' ;
+              } elseif ($extension=='mp3') {
+                  echo '<td><span class="glyphicon glyphicon-music font50"></span></td>';
+              } elseif ($extension=='mp4' || $extension=='wmv') {
+                  echo '<td><span class="glyphicon glyphicon-film font50"></span></td>';
+              } else {
+                  echo '<td>No Preview</td>';
+              }
+              
+              echo '<td>'.$media->getPostTitle().'</td>' ;
+              echo '<td>'.$media->getPostAuthor()->getUserLogin().'</td>' ;
+              echo '<td>'.$media->getPostDate()->format('m/d/Y H:i:s').'</td>' ;
+              echo '<td>'
+              . '<a href="'.$this->url('home/Media', array(
+                  'action' => 'edit', 'id' => $media->getId()
+              )).'">Edit</a>'
+              . ' | <a href="'.$this->url('home/Media', array(
+                  'action' => 'delete', 'id' => $media->getId()
+              )).'">Delete</a>'
+              . ' | <a target="_blank" href="'.$media->getGuid().'">View</a>'
+              . '</td>';
+              echo '</tr>';
+          }?>
+      </tbody>
+  </table>
+<?php 
+echo $this->paginationControl($this->medias,'Sliding','search_pagination.phtml',array('route' => 'home/Media', 'actionName' => 'index')); ?>
+</div>
+<div class='bs-callout bs-callout-info'>
+    <h4>Supported upload filetypes: jpg, png, gif, mp3, wav, mp4, webm, ogg. In which, html5 isn't supported in these cases:</h4>
+    - mp3: Opera & old Firefox don't support<br />
+    - wav: IE doesn't support<br />
+    - mp4: Opera & old Firefox don't support<br />
+    - webm: IE & Safari don't support<br />
+    - ogg: IE & Safari don't support
+</div>

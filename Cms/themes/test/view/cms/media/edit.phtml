@@ -1,0 +1,150 @@
+<?php 
+$title = 'Edit Media';
+$this->headTitle($title); 
+if ($this->message == MESSAGE_ITEM_DOESNT_EXIST) {
+    echo "<div class='alert alert-danger'>$this->message</div>";
+} else {
+    if ($this->message == MESSAGE_INVALID) {
+        echo "<div class='alert alert-danger'>$this->message</div>";
+    } elseif ($this->message == MESSAGE_SUCCESS) {
+        echo "<div class='alert alert-success'>$this->message</div>";
+    }?>
+<h1><?php echo $this->escapeHTML($title); ?></h1>
+<?php
+    $form = $this->form;
+    $form->setAttribute('action', $this->url('home/Media', array(
+        'controller' => 'Media',
+        'action' => 'edit',
+        'id' => $this->id,
+    )));
+    //$form->setAttributes(array('role' => 'form'));
+    $form->prepare();
+
+    //var_dump($this);
+    //var_dump($form);
+    //var_dump($this->form);
+    //foreach ($this->test as $value) {    var_dump($value);    }
+    //var_dump($this->ownCategories);
+    //var_dump($this->categories);
+
+    echo $this->form()->openTag($form). PHP_EOL;
+    echo $this->formHidden($form->get('id')). PHP_EOL; ?>
+    <div class="form-group element_submit">
+                <?php 
+                $form->get('submit')->setAttribute('class', 'btn btn-default'); //for style
+                echo $this->formRow($form->get('submit')). PHP_EOL; ?>
+    </div>
+    <div class='row'>
+        <div class='col-xs-12 col-sm-6 col-md-7 col-lg-9 center'>
+            <div class="form-group postTitle">
+                <?php //Title
+                $form->get('postTitle')->setAttribute('class', 'form-control'); //for style
+                $form->get('postTitle')->setAttribute('id', 'postTitle'); //for label wrapper
+                echo $this->formRow($form->get('postTitle')). PHP_EOL;?>
+            </div>
+            <div class="form-group postExcerpt">
+                <?php //Excerpt = Caption
+                $form->get('postExcerpt')->setLabel('Caption');
+                $form->get('postExcerpt')->setAttribute('class', 'form-control'); //for style
+                $form->get('postExcerpt')->setAttribute('id', 'postExcerpt'); //for label wrapper
+                echo $this->formRow($form->get('postExcerpt')). PHP_EOL;?>
+            </div>
+            <div class="form-group alternativeText">
+                <label for="alternativeText">Alternative Text</label>
+                <input name="alternativeText" type="text" class="form-control" id="alternativeText" value="">
+            </div>
+            <div class="form-group postContent">
+                <?php //Content = Description
+                $form->get('postContent')->setLabel('Description');
+                $form->get('postContent')->setAttribute('class', 'form-control'); //for style
+                $form->get('postContent')->setAttribute('id', 'postContent'); //for label wrapper
+                echo $this->formRow($form->get('postContent')). PHP_EOL; ?>
+            </div>
+                <?php 
+                $form->get('postAuthor')->setAttribute('type', 'hidden');
+                echo $this->formElement($form->get('postAuthor')); ?>
+                        <?php 
+                        $form->get('postDate')->setAttribute('type', 'hidden');
+                        echo $this->formElement($form->get('postDate')). PHP_EOL;?>
+                        <?php 
+                        $form->get('postDateGmt')->setAttribute('type', 'hidden');
+                        echo $this->formElement($form->get('postDateGmt')). PHP_EOL;?>
+                        <?php 
+                        $form->get('postModified')->setAttribute('type', 'hidden');
+                        echo $this->formElement($form->get('postModified')). PHP_EOL;?>
+                        <?php 
+                        $form->get('postModifiedGmt')->setAttribute('type', 'hidden');
+                        echo $this->formElement($form->get('postModifiedGmt')). PHP_EOL;?>
+
+                        <?php 
+                        $form->get('postStatus')->setAttribute('type', 'hidden');
+                        echo $this->formElement($form->get('postStatus')). PHP_EOL;?>
+                        <?php 
+                        $form->get('commentStatus')->setAttribute('type', 'hidden');
+                        echo $this->formElement($form->get('commentStatus')). PHP_EOL;?>
+                        <?php 
+                        $form->get('pingStatus')->setAttribute('type', 'hidden');
+                        echo $this->formElement($form->get('pingStatus')). PHP_EOL;?>
+
+                        <?php 
+                        $form->get('postPassword')->setAttribute('type', 'hidden');
+                        echo $this->formElement($form->get('postPassword')). PHP_EOL;?>
+                        <?php 
+                        $form->get('postName')->setAttribute('type', 'hidden');
+                        echo $this->formElement($form->get('postName')). PHP_EOL;?>
+
+                        <?php 
+                        $form->get('toPing')->setAttribute('type', 'hidden');
+                        echo $this->formElement($form->get('toPing')). PHP_EOL;?>
+                        <?php 
+                        $form->get('pinged')->setAttribute('type', 'hidden');
+                        echo $this->formElement($form->get('pinged')). PHP_EOL;?>
+                        
+        </div>
+        <div class='col-xs-12 col-sm-6 col-md-5 col-lg-3'>
+            <label>Preview</label>
+            <?php echo $this->preview; ?>
+                <?php 
+                $form->get('postContentFiltered')->setAttribute('type', 'hidden');
+                echo $this->formElement($form->get('postContentFiltered')). PHP_EOL;?>
+                <?php 
+                $form->get('postParent')->setAttribute('type', 'hidden');
+                echo $this->formElement($form->get('postParent')). PHP_EOL;?>
+                <?php 
+                $form->get('guid')->setAttribute('type', 'hidden');
+                echo $this->formElement($form->get('guid')). PHP_EOL;?>
+                <?php 
+                $form->get('menuOrder')->setAttribute('type', 'hidden');
+                echo $this->formElement($form->get('menuOrder')). PHP_EOL;?>
+                <?php 
+                $form->get('postMimeType')->setAttribute('type', 'hidden');
+                echo $this->formElement($form->get('postMimeType')). PHP_EOL;?>
+                <?php 
+                $form->get('postType')->setAttribute('type', 'hidden');
+                echo $this->formElement($form->get('postType')). PHP_EOL;?>
+                <?php 
+                $form->get('commentCount')->setAttribute('type', 'hidden');
+                echo $this->formElement($form->get('commentCount')). PHP_EOL;?>
+        </div>
+    </div>
+
+    <?php echo $this->form()->closeTag(); ?>
+
+    <script>
+        // Replace the <textarea id="editor1"> with a CKEditor
+        // instance, using default configuration.
+        CKEDITOR.replace( 'postContent' );
+        //CKEDITOR.replace('postExcerpt');
+    </script>
+    <!-- for datetime picker -->
+    <script type="text/javascript">
+        $(function() {
+            $('#datetimepicker_postDate').datetimepicker();
+            $('#datetimepicker_postDateGmt').datetimepicker();
+            $('#datetimepicker_postModified').datetimepicker();
+            $('#datetimepicker_postModifiedGmt').datetimepicker();
+        });
+    </script>
+    <script type="text/javascript" src="http://eonasdan.github.io/bootstrap-datetimepicker/scripts/moment-2.4.0.js"></script>
+    <script type="text/javascript" src="http://eonasdan.github.io/bootstrap-datetimepicker/scripts/bootstrap-datetimepicker.js"></script>
+<?php }?>

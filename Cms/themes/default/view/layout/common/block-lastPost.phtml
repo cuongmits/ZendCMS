@@ -1,0 +1,22 @@
+<?php 
+/**
+ * This file is part of Cms
+ *
+ * (c) 2014 Keon Nguyen <cuongmits@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+?>
+<div class="block-item">
+    <?php if (!is_null($this->blockItemTitle)) { ?>
+        <div class="block-item-title"><?php echo $this->blockItemTitle ?></div>
+    <?php } ?>
+    <ul>
+    <?php 
+    foreach($this->posts as $post) { 
+        //echo '<li><a href="'.$post->getGuid().'">'.$post->getPostTitle().'</a></li>';
+        echo '<li><a href="'.$this->url('home').$post->getPostName().'">'.$post->getPostTitle().'</a></li>';
+    }?>
+    </ul>
+</div>

@@ -1,0 +1,51 @@
+<?php 
+$post = $this->post;
+if ($post) { //post view
+    $categoryTerms = $this->categoryTerms;
+    $tagTerms = $this->tagTerms;
+    $this->headTitle($this->escapeHTML($post->getPostTitle())); 
+    ?>
+    <div class="postTitle"><?php echo $this->escapeHTML($post->getPostTitle()); ?></div>
+    <div class="categoryList">
+        <div class="categoryListIcon">Categories:</div>
+        <?php 
+            foreach ($categoryTerms as $categoryTerm) {
+                echo "<a class='categoryItem' href='".$this->url('home').$categoryTerm->getSlug()."'>".$categoryTerm->getName()."</a>";
+            }
+        ?>
+    </div>
+    <?php echo $post->getPostContent(); ?>
+    <div class="tagList"><div class="categoryListIcon">Tags:</div>
+        <?php 
+            foreach ($tagTerms as $tagTerm) {
+                echo "<a class='tagItem' href='".$this->url('home').$tagTerm->getSlug()."'>".$tagTerm->getName()."</a>";
+            }
+        ?>
+    </div>
+<?php } else { //term view
+    $term = $this->term;
+    $posts = $this->posts;
+    $termTaxonomies = $term->getTermTaxonomies();
+    $isTag = true;
+    foreach ($termTaxonomies as $termTaxonomy) {
+        if ($termTaxonomy->getTaxonomy()=='category') {
+            $isTag = false;
+            break;
+        }
+    }
+    
+    $this->headTitle($this->escapeHTML($term->getName()));?>
+    <div class="termTitle"><?php echo $this->escapeHTML($term->getName()); if ($isTag) echo '<small> (tag)</small>';?></div>
+    <?php 
+    foreach ($termTaxonomies as $termTaxonomy) {
+        if ($termTaxonomy->getTaxonomy()=='category' && $termTaxonomy->getDescription()!='') {
+            echo '<span class="category_description"><b>Description: </b>'.$termTaxonomy->getDescription().'</span>'; 
+        }
+    }
+    foreach ($posts as $post) {?>
+        <div class="postItem">
+            <h2><?php echo $this->escapeHTML($post->getPostTitle()); ?></h2>
+            <?php echo $post->getPostContent();?>
+        </div>
+    <?php }
+}?>

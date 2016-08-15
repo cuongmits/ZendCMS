@@ -1,0 +1,323 @@
+"<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>ZF2 Skeleton Application</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!-- Le styles -->
+        <link href="/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
+<link href="/css/bootstrap-theme.min.css" media="screen" rel="stylesheet" type="text/css">
+<link href="/css/admin.css" media="screen" rel="stylesheet" type="text/css">
+<link href="/img/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
+        <!-- Scripts -->
+        <!--[if lt IE 9]><script type="text/javascript" src="/js/html5shiv.js"></script><![endif]-->
+<!--[if lt IE 9]><script type="text/javascript" src="/js/respond.min.js"></script><![endif]-->
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>    </head>
+    <body>
+        <div id="xxiwrap">
+            <div id="xxiadminbar"><a href="/"><span class="glyphicon glyphicon-home"></span></a> Welcome to XXi Solution!</div>
+            <div id="adminmenubak"></div>
+            <div id="adminmenuwrap"></div>
+            
+            <!-- nav here -->
+            
+            <div>
+                <div class="sidebar">
+                    <ul class="nav nav-sidebar">
+    <li>
+        <a href="/administration">Dashboard</a>
+        <ul>
+            <li>
+                <a title="Add new post" href="/administration/post/add">Home</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/administration/post/add">Updates</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a title="test title" href="/post">Posts</a>
+        <ul>
+            <li>
+                <a title="Add new post" href="/post/add">Add New</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/category">Categories</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/tag">Tags</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="/media">Media</a>
+        <ul>
+            <li>
+                <a title="View library" href="/media">Library</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/media/add">Add New</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="/page">Pages</a>
+        <ul>
+            <li>
+                <a title="View all pages" href="/page">All Pages</a>
+            </li>
+            <li>
+                <a title="Add new page" href="/page/add">Add New</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="/comment">Comment</a>
+    </li>
+    <li>
+        <a href="/appearance">Appearance</a>
+        <ul>
+            <li>
+                <a title="Add new post" href="/appearance/add">Themes</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/appearance/add">Customize</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/appearance/add">Widgets</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/appearance/add">Menus</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/appearance/add">Header</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/appearance/add">Editor</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="/plugin">Plugin</a>
+        <ul>
+            <li>
+                <a title="Add new post" href="/plugin/add">Installed Plugins</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/plugin/add">Add New</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="/user">User</a>
+        <ul>
+            <li>
+                <a title="Add new post" href="/user/add">All Users</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/user/add">Add New</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/user/add">Your Profile</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="/setting">Setting</a>
+        <ul>
+            <li>
+                <a title="Add new post" href="/setting/add">General</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/setting/add">Writing</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/setting/add">Reading</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/setting/add">Discussion</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/setting/add">Permalinks</a>
+            </li>
+        </ul>
+    </li>
+</ul>                </div>
+                <div class="main">
+                    <div class="container">
+                                                <hr>
+                        <footer>
+                            <p>&copy; 2005 - 2014 by XXi Solution Ltd. All rights reserved.</p>
+                        </footer>
+                    </div> <!-- /container -->
+                </div>
+            </div>
+            
+            
+
+            <!--
+            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="/"><img src="/img/zf2-logo.png" alt="Zend Framework 2"/>&nbsp;Zend Application</a>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav">
+    <li>
+        <a href="/administration">Dashboard</a>
+        <ul>
+            <li>
+                <a title="Add new post" href="/administration/post/add">Home</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/administration/post/add">Updates</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a title="test title" href="/post">Posts</a>
+        <ul>
+            <li>
+                <a title="Add new post" href="/post/add">Add New</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/category">Categories</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/tag">Tags</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="/media">Media</a>
+        <ul>
+            <li>
+                <a title="View library" href="/media">Library</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/media/add">Add New</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="/page">Pages</a>
+        <ul>
+            <li>
+                <a title="View all pages" href="/page">All Pages</a>
+            </li>
+            <li>
+                <a title="Add new page" href="/page/add">Add New</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="/comment">Comment</a>
+    </li>
+    <li>
+        <a href="/appearance">Appearance</a>
+        <ul>
+            <li>
+                <a title="Add new post" href="/appearance/add">Themes</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/appearance/add">Customize</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/appearance/add">Widgets</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/appearance/add">Menus</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/appearance/add">Header</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/appearance/add">Editor</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="/plugin">Plugin</a>
+        <ul>
+            <li>
+                <a title="Add new post" href="/plugin/add">Installed Plugins</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/plugin/add">Add New</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="/user">User</a>
+        <ul>
+            <li>
+                <a title="Add new post" href="/user/add">All Users</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/user/add">Add New</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/user/add">Your Profile</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="/setting">Setting</a>
+        <ul>
+            <li>
+                <a title="Add new post" href="/setting/add">General</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/setting/add">Writing</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/setting/add">Reading</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/setting/add">Discussion</a>
+            </li>
+            <li>
+                <a title="Add new post" href="/setting/add">Permalinks</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="/administration">Dashboard</a>
+    </li>
+    <li>
+        <a title="test title" href="/administration/post">Posts</a>
+        <ul>
+            <li>
+                <a title="Add new post" href="/administration/post/add">Add</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="/administration/media">Media</a>
+    </li>
+    <li>
+        <a href="/administration/comment">Comment</a>
+    </li>
+    <li>
+        <a href="/administration/plugin">Plugin</a>
+    </li>
+    <li>
+        <a href="/administration/user">User</a>
+    </li>
+    <li>
+        <a href="/administration/setting">Setting</a>
+    </li>
+</ul>                    </div>
+                </div>
+            </nav>-->
+        </div>
+    </body>
+</html>
+"

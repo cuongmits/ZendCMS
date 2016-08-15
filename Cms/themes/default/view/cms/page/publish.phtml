@@ -1,0 +1,110 @@
+<?php
+/**
+ * This file is part of Cms
+ *
+ * (c) 2014 Keon Nguyen <cuongmits@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+$this->headScript()
+        ->appendFile($this->basePath() . '/ckeditor/ckeditor.js');
+$title = 'Publish Pages';
+$this->headTitle($title);?>
+<h1><?php echo $this->escapeHTML($title); ?></h1>
+<div class='row'>
+    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <a href='<?php echo $this->url('home/Page', array('action' => 'page', 'controller' => 'Page')); ?>'>All</a><small>(<?php echo $this->all_posts_quantity; ?>)</small> 
+        | <strong>Published</strong><small>(<?php echo $this->publish_posts_quantity; ?>)</small> 
+        <?php if ($this->draft_posts_quantity > 0) { ?>
+            | <a href='<?php echo $this->url('home/Page', array('action' => 'draft', 'controller' => 'Page')); ?>'>Draft</a><small>(<?php echo $this->draft_posts_quantity; ?>)</small>
+        <?php } ?>
+        <?php if ($this->trash_posts_quantity > 0) { ?>
+            | <a href='<?php echo $this->url('home/Page', array('action' => 'trash', 'controller' => 'Page')); ?>'>Trash</a><small>(<?php echo $this->trash_posts_quantity; ?>)</small>
+        <?php } ?>
+    </div>
+    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <form class="navbar-form navbar-right">
+            <div class='row'>
+                <div class='col-xs-12 col-sm-12 col-md-6 col-lg-7'>
+                    <input type="text" class="form-control post-search" placeholder="Search...">
+                </div>
+                <div class='col-xs-12 col-sm-12 col-md-6 col-lg-5'>
+                    <input name="submit" type="submit" value="Search Posts" class='btn btn-default'>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th><input type="checkbox"></th>
+                <th>Title <small>(Parent)</small></th>
+                <th>Author</th>
+                <th>Com.#</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>#</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th><input type="checkbox"></th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Com.#</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>#</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            <?php
+            foreach ($this->posts as $post) {
+                //if ($post->getPostStatus()!='trash') { //All = publish + draft (without trash)
+                    echo '<tr>';
+                    echo '<td><input type="checkbox" value="' . $post->getId() . '"></td>';
+                    echo '<td><h5>' . $post->getPostTitle() .' ';
+                    if (!is_null($post->getPostParent())) {
+                        echo '<small>(<a href="'.$this->url('home/Page', 
+                                array('action'=>'edit', 'id' => $post->getPostParent()->getId()))
+                                .'">'. $post->getPostParent()->getPostTitle() . '</a>'
+                                .($post->getPostParent()->getPostStatus()=='trash'?' - trash':($post->getPostParent()->getPostStatus()=='draft'?' - draft':''))
+                                .')</small>';
+                    }
+                    echo '</h5></td>';
+                    echo '<td>' . $post->getPostAuthor()->getUserLogin() . '</td>';
+                    echo '<td>' . $post->getCommentCount() . '</td>';
+                    echo '<td>' . $post->getPostDate()->format('m/d/Y H:i:s') . '</td>';
+                    echo '<td>' . $post->getPostStatus() . '</td>';
+                    echo '<td>'
+                    . '<a href="' . $this->url('home/Page', array(
+                        'action' => 'edit', 'id' => $post->getId()
+                    )) . '">Edit</a>'
+                    . ' | <a href="' . $this->url('home/Page', array(
+                        'action' => 'delete', 'id' => $post->getId()
+                    )) . '">Trash</a> | ';
+
+                    if ($post->getPostStatus()=='publish') {
+                        echo '<a href="' . $this->url('home/Page', array(
+                            'action' => 'unpublish', 'id' => $post->getId()
+                        )) . '">Unpublish</a>';
+                    } else {
+                        echo '<a href="' . $this->url('home/Page', array(
+                            'action' => 'doPublish', 'id' => $post->getId()
+                        )) . '">Publish</a>';
+                    }
+                    echo ' | <a target="_blank" href="'.$this->url('home').$post->getPostName().'">View</a>'
+                    . '</td>';
+                    echo '</tr>';
+                //}
+            }
+            ?>
+        </tbody>
+    </table>
+    <?php echo $this->paginationControl($this->posts, 'Sliding', 'search_pagination.phtml', array('route' => 'home/Page', 'actionName' => 'publish')); ?>
+</div>
+

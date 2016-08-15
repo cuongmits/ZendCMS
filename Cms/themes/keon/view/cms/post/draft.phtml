@@ -1,0 +1,68 @@
+<?php 
+$this->headScript()
+        ->appendFile($this->basePath() . '/ckeditor/ckeditor.js');
+$title = 'Draft Posts';
+$this->headTitle($title); ?>
+<h1><?php echo $this->escapeHTML($title); ?></h1>
+<div class='row'>
+    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <a href='<?php echo $this->url('home/Post', array('action' => 'post', 'controller' => 'Post')); ?>'>All</a><small>(<?php echo $this->posts_quantity; ?>)</small> | 
+        <a href='<?php echo $this->url('home/Post', array('action' => 'publish', 'controller' => 'Post')); ?>'>Published</a><small>(<?php echo $this->publish_posts_quantity; ?>)</small> | 
+        <strong>Draft</strong><small>(<?php echo $this->draft_posts_quantity; ?>)</small> 
+        <?php if ($this->trash_posts_quantity>0) { ?>
+        | <a href='<?php echo $this->url('home/Post', array('action' => 'trash', 'controller' => 'Post')); ?>'>Trash</a><small>(<?php echo $this->trash_posts_quantity; ?>)</small>
+        <?php } ?>
+    </div>
+    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <form class="navbar-form navbar-right">
+            <div class='row'>
+                <div class='col-xs-12 col-sm-12 col-md-6 col-lg-7'>
+                    <input type="text" class="form-control post-search" placeholder="Search...">
+                </div>
+                <div class='col-xs-12 col-sm-12 col-md-6 col-lg-5'>
+                    <input name="submit" type="submit" value="Search Posts" class='btn btn-default'>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="table-responsive">
+  <table class="table table-hover">
+      <thead>
+          <tr>
+              <th><input type="checkbox"></th>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Com.#</th>
+              <th>Date</th>
+              <th>#</th>
+          </tr>
+      </thead>
+      <tbody>
+          <?php
+          foreach ($this->posts as $post) {
+              echo '<tr>';
+              echo '<td><input type="checkbox" value="'.$post->getId().'"></td>';
+              echo '<td>'.$post->getPostTitle().'</td>' ;
+              echo '<td>'.$post->getPostAuthor()->getUserNicename().'</td>' ;
+              echo '<td>'.$post->getCommentCount().'</td>' ;
+              echo '<td>'.$post->getPostDate()->format('m/d/Y H:i:s').'</td>' ;
+              echo '<td>'
+              . '<a href="'.$this->url('home/Post', array(
+                  'action' => 'edit', 'id' => $post->getId()
+              )).'">Edit</a>'
+              . ' | <a href="'.$this->url('home/Post', array(
+                  'action' => 'delete', 'id' => $post->getId()
+              )).'">Trash</a> | '
+              . '<a href="'.$this->url('home/Post', array(
+                  'action' => 'doPublish', 'id' => $post->getId()
+              )).'">Publish</a>'
+              . '</td>';
+              echo '</tr>';
+          }?>
+      </tbody>
+  </table>
+<?php 
+echo $this->paginationControl($this->posts,'Sliding','search_pagination.phtml',array('route' => 'home/Post', 'controller' => 'Post', 'actionName' => 'draft')); ?>
+</div>
+

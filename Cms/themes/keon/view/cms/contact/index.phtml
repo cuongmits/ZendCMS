@@ -1,0 +1,45 @@
+<?php
+$title = "Contact Us";
+$this->headTitle($title);
+if ($this->message == MESSAGE_SUCCESS) {
+    echo "<div class='alert alert-success'>Thanks for contacting us, moreover, you can add my skype contact 'cuongmits' for more.</div>";
+}
+?>
+<h1><?php echo $title; ?></h1>
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url('home/Contact', array('action', 'index',)));
+$form->prepare();
+
+echo $this->form()->openTag($form). PHP_EOL;
+?>
+    <div class="form-group">
+        <?php 
+        $form->get('fullname')->setAttribute('class', 'form-control'); //for style
+        $form->get('fullname')->setAttribute('id', 'fullname'); //for label wrapper
+        echo $this->formRow($form->get('fullname')). PHP_EOL; 
+        ?>
+    </div>
+    <div class="form-group">
+        <?php 
+        $form->get('email')->setAttribute('class', 'form-control'); //for style
+        $form->get('email')->setAttribute('id', 'email'); //for label wrapper
+        echo $this->formRow($form->get('email')). PHP_EOL; 
+        ?>
+    </div>
+    <div class="form-group">
+        <?php 
+        $form->get('emailContent')->setAttribute('class', 'form-control'); //for style
+        $form->get('emailContent')->setAttribute('id', 'emailContent'); //for label wrapper
+        echo $this->formRow($form->get('emailContent')). PHP_EOL; 
+        ?>
+    </div>
+    <div class="bs-callout bs-callout-info">
+        <h4>Note:</h4>
+        <p>You will automatically receive copy of this contact email.</p>
+    </div>
+        <?php 
+        $form->get('submit')->setAttribute('class', 'btn btn-default'); //for style
+        echo $this->formRow($form->get('submit')). PHP_EOL; 
+        ?>
+<?php echo $this->form()->closeTag(); ?>

@@ -1,0 +1,190 @@
+<?php 
+/**
+ * This file is part of Cms
+ *
+ * (c) 2014 Keon Nguyen <cuongmits@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+$title = 'Reply a Comment';
+$this->headTitle($title); 
+$this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-datetimepicker.min.css');
+//$this->headLink()->prependStylesheet($this->basePath() . '/css/styles-bootstrap-datetimepicker.css');
+$this->headScript()->appendFile($this->basePath() . '/ckeditor/ckeditor.js');
+if ($this->message == MESSAGE_ITEM_DOESNT_EXIST) {
+    echo "<div class='alert alert-danger'>$this->message</div>";
+} else {
+    if ($this->message == MESSAGE_INVALID) {
+        echo "<div class='alert alert-danger'>$this->message</div>";
+    } elseif ($this->message == MESSAGE_SUCCESS) {
+        echo "<div class='alert alert-success'>$this->message</div>";
+    }?>
+<h1><?php echo $this->escapeHTML($title); ?></h1>
+<?php
+    $form = $this->form;
+    $form->setAttribute('action', $this->url('home/Comment', array(
+        'controller' => 'Comment',
+        'action' => 'reply',
+        'id' => $this->id,
+    )));
+    //$form->setAttributes(array('role' => 'form'));
+    $form->prepare();
+
+    //var_dump($this->e);
+    //var_dump($this->test);
+    //var_dump($this->form);
+    //foreach ($this->test as $value) {    var_dump($value);    }
+    //var_dump($this->ownCategories);
+    //var_dump($this->categories);
+
+    echo $this->form()->openTag($form). PHP_EOL;
+    echo $this->formHidden($form->get('comment_ID')). PHP_EOL; 
+    ?>
+    <div class="form-group element_submit">
+        <?php 
+        $form->get('submit')->setAttribute('class', 'btn btn-default'); //for style
+        echo $this->formRow($form->get('submit')). PHP_EOL; ?>
+    </div>
+    <div class='row'>
+        <div class='col-xs-12 col-sm-6 col-md-7 col-lg-9 center'>
+            <div class="form-group comment_content">
+                <?php 
+                $form->get('comment_content')->setAttribute('class', 'form-control'); //for style
+                $form->get('comment_content')->setAttribute('id', 'comment_content'); //for label wrapper
+                echo $this->formRow($form->get('comment_content')). PHP_EOL; 
+                echo $this->formElementErrors($form->get('comment_content')). PHP_EOL;?>
+            </div>
+            <div class='row'>
+                <div class='col-xs-6 col-sm-6 col-md-3 col-lg-3'>
+                    <div class="form-group comment_post_ID">
+                        <?php 
+                        $form->get('comment_post_ID')->setAttribute('class', 'form-control'); //for style
+                        $form->get('comment_post_ID')->setAttribute('id', 'comment_post_ID'); //for label wrapper
+                        echo $this->formRow($form->get('comment_post_ID')). PHP_EOL; ?>
+                    </div>
+                </div>
+                <div class='col-xs-6 col-sm-6 col-md-3 col-lg-3'>
+                    <div class="form-group comment_parent">
+                        <?php 
+                        $form->get('comment_parent')->setAttribute('class', 'form-control'); //for style
+                        $form->get('comment_parent')->setAttribute('id', 'comment_parent'); //for label wrapper
+                        echo $this->formRow($form->get('comment_parent')). PHP_EOL; ?>
+                    </div>
+                </div>
+                <div class='col-xs-6 col-sm-6 col-md-3 col-lg-3'>
+                    <div class="form-group user_id">
+                        <?php 
+                        $form->get('user_id')->setAttribute('class', 'form-control'); //for style
+                        $form->get('user_id')->setAttribute('id', 'user_id'); //for label wrapper
+                        echo $this->formRow($form->get('user_id')). PHP_EOL;  ?>
+                    </div>
+                </div>
+                <div class='col-xs-6 col-sm-6 col-md-3 col-lg-3'>
+                    <div class="form-group comment_karma">
+                        <?php 
+                        $form->get('comment_karma')->setAttribute('class', 'form-control'); //for style
+                        $form->get('comment_karma')->setAttribute('id', 'comment_karma'); //for label wrapper
+                        echo $this->formRow($form->get('comment_karma')). PHP_EOL; ?>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group comment_agent">
+                <?php 
+                $form->get('comment_agent')->setAttribute('class', 'form-control'); //for style
+                $form->get('comment_agent')->setAttribute('id', 'comment_agent'); //for label wrapper
+                echo $this->formRow($form->get('comment_agent')). PHP_EOL; ?>
+            </div>
+        </div>
+        <div class='col-xs-12 col-sm-6 col-md-5 col-lg-3 center'>
+            <div class="form-group comment_approved">
+                <?php 
+                $form->get('comment_approved')->setAttribute('class', 'form-control'); //for style
+                $form->get('comment_approved')->setAttribute('id', 'comment_approved'); //for label wrapper
+                echo $this->formRow($form->get('comment_approved')). PHP_EOL; ?>
+            </div>
+            <div class="form-group comment_author">
+                <?php 
+                $form->get('comment_author')->setAttribute('class', 'form-control'); //for style
+                $form->get('comment_author')->setAttribute('id', 'comment_author'); //for label wrapper
+                echo $this->formRow($form->get('comment_author')). PHP_EOL;?>
+            </div>
+            <div class="form-group comment_author_email">
+                <?php 
+                $form->get('comment_author_email')->setAttribute('class', 'form-control'); //for style
+                $form->get('comment_author_email')->setAttribute('id', 'comment_author_email'); //for label wrapper
+                echo $this->formRow($form->get('comment_author_email')). PHP_EOL; 
+                echo $this->formElementErrors($form->get('comment_author_email')). PHP_EOL;?>
+                <!--<label>Content</label>
+                <textarea id="postContent" name="postContent" rows="10" cols="80"></textarea>-->
+            </div>
+            <div class="form-group comment_author_url">
+                <?php 
+                $form->get('comment_author_url')->setAttribute('class', 'form-control'); //for style
+                $form->get('comment_author_url')->setAttribute('id', 'comment_author_url'); //for label wrapper
+                echo $this->formRow($form->get('comment_author_url')). PHP_EOL;?>
+                <!--<label>Excerpt</label>
+                <textarea id="postExcerpt" class='form-control' name="postExcerpt" rows="5" cols="80"></textarea>-->
+            </div>
+            <div class='row'>
+                <div class='col-xs-6 col-sm-6 col-md-6 col-lg-6 center'>
+                    <div class="form-group comment_author_IP">
+                        <?php 
+                        $form->get('comment_author_IP')->setAttribute('class', 'form-control'); //for style
+                        $form->get('comment_author_IP')->setAttribute('id', 'comment_author_IP'); //for label wrapper
+                        echo $this->formRow($form->get('comment_author_IP')). PHP_EOL;?>
+                    </div>
+                </div>
+                <div class='col-xs-6 col-sm-6 col-md-6 col-lg-6 center'>
+                    <div class="form-group comment_type">
+                        <?php 
+                        $form->get('comment_type')->setAttribute('class', 'form-control'); //for style
+                        $form->get('comment_type')->setAttribute('id', 'comment_type'); //for label wrapper
+                        echo $this->formRow($form->get('comment_type')). PHP_EOL;?>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group comment_date">
+                <label>Date</label>
+                <div class="input-group date <?php  if($this->formElementErrors($form->get('comment_date'))) echo "error"; ?>" id="datetimepicker_comment_date">
+                    <input name="comment_date" type="text" class="form-control" data-format="YYYY-MM-DD hh:mm:00" value="<?php echo date('Y-m-d H:i:s'); ?>">
+                    <?php echo $this->formElementErrors($form->get('comment_date')). PHP_EOL; ?>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group comment_date_gmt">
+                <label>Date GMT</label>
+                <div class="input-group date <?php  if($this->formElementErrors($form->get('comment_date_gmt'))) echo "error"; ?>" id="datetimepicker_comment_date_gmt">
+                    <input name="comment_date_gmt" type="text" class="form-control" data-format="YYYY-MM-DD hh:mm:00" value="<?php echo date('Y-m-d H:i:s'); ?>">
+                    <?php echo $this->formElementErrors($form->get('comment_date_gmt')). PHP_EOL; ?>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <?php echo $this->form()->closeTag(); ?>
+
+    <script>
+        CKEDITOR.replace( 'comment_content' );
+    </script>
+    <!-- for datetime picker -->
+    <script type="text/javascript">
+        $(function() {
+            $('#datetimepicker_comment_date').datetimepicker();
+            $('#datetimepicker_comment_date_gmt').datetimepicker();
+        });
+    </script>
+    <!--
+    <script type="text/javascript" src="http://eonasdan.github.io/bootstrap-datetimepicker/scripts/moment-2.4.0.js"></script>
+    <script type="text/javascript" src="http://eonasdan.github.io/bootstrap-datetimepicker/scripts/bootstrap-datetimepicker.js"></script> -->
+    <?php 
+    $this->headScript()->appendFile($this->basePath() . '/js/moment-2.4.0.js');
+    $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datetimepicker.js');
+    ?>
+<?php } ?>

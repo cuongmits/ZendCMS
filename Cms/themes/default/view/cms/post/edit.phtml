@@ -1,0 +1,328 @@
+<?php 
+/**
+ * This file is part of Cms
+ *
+ * (c) 2014 Keon Nguyen <cuongmits@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+$title = 'Edit Post';
+$this->headTitle($title); 
+$this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-datetimepicker.min.css');
+//$this->headLink()->prependStylesheet($this->basePath() . '/css/styles-bootstrap-datetimepicker.css');
+$this->headScript()->appendFile($this->basePath() . '/ckeditor/ckeditor.js');
+if ($this->message == MESSAGE_ITEM_DOESNT_EXIST || $this->message == MESSAGE_ANOTHER_USER_IS_WORKING_WITH_ITEM) {
+    echo "<div class='alert alert-danger'>$this->message</div>";
+} else {
+    if ($this->message == MESSAGE_INVALID) {
+        echo "<div class='alert alert-danger'>$this->message</div>";
+    } elseif ($this->message == MESSAGE_SUCCESS) {
+        echo "<div class='alert alert-success'>$this->message</div>";
+    }?>
+<h1><?php echo $this->escapeHTML($title); ?></h1>
+<?php
+    $form = $this->form;
+    //var_dump($form->get('postDate')->getValue());
+    $form->setAttribute('action', $this->url('home/Post', array(
+        'controller' => 'Post',
+        'action' => 'edit',
+        'id' => $this->id,
+    )));
+    //$form->setAttributes(array('role' => 'form'));
+    $form->prepare();
+
+    //var_dump($this->e);
+    //var_dump($this->test);
+    //var_dump($this->form);
+    //foreach ($this->test as $value) {    var_dump($value);    }
+    //var_dump($this->ownCategories);
+    //var_dump($this->categories);
+
+    echo $this->form()->openTag($form). PHP_EOL;
+    echo $this->formHidden($form->get('id')). PHP_EOL; ?>
+    <div class="form-group element_submit">
+                <?php 
+                //$this->formSubmit($form->get('submit'));
+                $form->get('submit')->setAttribute('class', 'btn btn-default'); //for style
+                echo $this->formRow($form->get('submit')). PHP_EOL; ?>
+    </div>
+    <div class='row'>
+        <div class='col-xs-12 col-sm-6 col-md-7 col-lg-9 center'>
+            <div class="form-group postTitle">
+                <?php 
+                $form->get('postTitle')->setAttribute('class', 'form-control'); //for style
+                $form->get('postTitle')->setAttribute('id', 'postTitle'); //for label wrapper
+                echo $this->formRow($form->get('postTitle')). PHP_EOL;?>
+            </div>
+            <div class="form-group postContent">
+                <?php 
+                $form->get('postContent')->setAttribute('class', 'form-control'); //for style
+                $form->get('postContent')->setAttribute('id', 'postContent'); //for label wrapper
+                echo $this->formRow($form->get('postContent')). PHP_EOL; 
+                echo $this->formElementErrors($form->get('postContent')). PHP_EOL;?>
+                <!--<label>Content</label>
+                <textarea id="postContent" name="postContent" rows="10" cols="80"></textarea>-->
+            </div>
+            <div class="form-group postExcerpt">
+                <?php 
+                $form->get('postExcerpt')->setAttribute('class', 'form-control'); //for style
+                $form->get('postExcerpt')->setAttribute('id', 'postExcerpt'); //for label wrapper
+                echo $this->formRow($form->get('postExcerpt')). PHP_EOL;?>
+                <!--<label>Excerpt</label>
+                <textarea id="postExcerpt" class='form-control' name="postExcerpt" rows="5" cols="80"></textarea>-->
+            </div>
+
+            <div class="form-group postAuthor">
+                <?php 
+                //var_dump($form->get('postAuthor'));
+                //var_dump($this->formRow($form->get('postAuthor')));
+                $form->get('postAuthor')->setAttribute('class', 'form-control'); //for style
+                $form->get('postAuthor')->setAttribute('id', 'postAuthor'); //for label wrapper
+                echo $this->formRow($form->get('postAuthor')). PHP_EOL;?>
+            </div>
+            <div class='row'>
+                <div class='col-xs-12 col-sm-12 col-md-6 col-lg-3'>
+                    <div class="form-group postDate">
+                        <?php 
+                        /*$form->get('postDate')->setAttribute('class', 'form-control'); //for style
+                        $form->get('postDate')->setAttribute('id', 'postDate'); //for label wrapper
+                        echo $this->formRow($form->get('postDate')). PHP_EOL; 
+                        echo $this->formElementErrors($form->get('postDate')). PHP_EOL;*/?>
+                        <label>Post Date</label>
+                        <div class="input-group date <?php  if($this->formElementErrors($form->get('postDate'))) echo "error"; ?>" id="datetimepicker_postDate">
+                            <input name="postDate" type="text" class="form-control" data-format="YYYY-MM-DD hh:mm:00" value="<?php echo $form->get('postDate')->getValue(); ?>">
+                            <?php echo $this->formElementErrors($form->get('postDate')). PHP_EOL; ?>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class='col-xs-12 col-sm-12 col-md-6 col-lg-3'>
+                    <div class="form-group postDateGmt">
+                        <?php /*
+                        $form->get('postDateGmt')->setAttribute('class', 'form-control'); //for style
+                        $form->get('postDateGmt')->setAttribute('id', 'postDateGmt'); //for label wrapper
+                        echo $this->formRow($form->get('postDateGmt')). PHP_EOL; 
+                        echo $this->formElementErrors($form->get('postDateGmt')). PHP_EOL;*/?>
+                        <label>Post Date GMT</label>
+                        <div class="input-group date <?php  if($this->formElementErrors($form->get('postDate'))) echo "error"; ?>" id="datetimepicker_postDateGmt">
+                            <input name="postDateGmt" type="text" class="form-control" data-format="YYYY-MM-DD hh:mm:00" value="<?php echo $form->get('postDateGmt')->getValue(); ?>">
+                            <?php echo $this->formElementErrors($form->get('postDateGmt')). PHP_EOL; ?>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class='col-xs-12 col-sm-12 col-md-6 col-lg-3'>
+                    <div class="form-group postModified">
+                        <?php /*
+                        $form->get('postModified')->setAttribute('class', 'form-control'); //for style
+                        $form->get('postModified')->setAttribute('id', 'postModified'); //for label wrapper
+                        echo $this->formRow($form->get('postModified')). PHP_EOL; 
+                        echo $this->formElementErrors($form->get('postModified')). PHP_EOL;*/?>
+                        <label>Post Modified</label>
+                        <div class="input-group date" id="datetimepicker_postModified">
+                            <input name="postModified" type="text" class="form-control" data-format="YYYY-MM-DD hh:mm:00" value="<?php echo date('Y-m-d H:i:s'); ?>">
+                            <?php echo $this->formElementErrors($form->get('postModified')). PHP_EOL; ?>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class='col-xs-12 col-sm-12 col-md-6 col-lg-3'>
+                    <div class="form-group postModifiedGmt">
+                        <?php /*
+                        $form->get('postModifiedGmt')->setAttribute('class', 'form-control'); //for style
+                        $form->get('postModifiedGmt')->setAttribute('id', 'postModifiedGmt'); //for label wrapper
+                        echo $this->formRow($form->get('postModifiedGmt')). PHP_EOL; 
+                        echo $this->formElementErrors($form->get('postModifiedGmt')). PHP_EOL;*/?>
+                        <label>Post Modified GMT</label>
+                        <div class="input-group date" id="datetimepicker_postModifiedGmt">
+                            <input name="postModifiedGmt" type="text" class="form-control" data-format="YYYY-MM-DD hh:mm:00" value="<?php echo date('Y-m-d H:i:s'); ?>">
+                            <?php echo $this->formElementErrors($form->get('postModifiedGmt')). PHP_EOL; ?>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class='row'>
+                <div class='col-xs-12 col-sm-12 col-md-4 col-lg-4'>
+                    <div class="form-group postStatus">
+                        <?php 
+                        $form->get('postStatus')->setAttribute('class', 'form-control'); //for style
+                        $form->get('postStatus')->setAttribute('id', 'postStatus'); //for label wrapper
+                        echo $this->formRow($form->get('postStatus')). PHP_EOL; ?>
+                        <!--<label>Post Status</label>
+                        <select name='postStatus' id='postStatus' class='form-control'>
+                            <option value='publish' selected="selected">Published</option>
+                            <option value='pending'>Pending</option>
+                            <option value='draft'>Draft</option>
+                        </select>-->
+                    </div>
+                </div>
+                <div class='col-xs-12 col-sm-12 col-md-4 col-lg-4'>
+                    <div class="form-group commentStatus">
+                        <?php 
+                        $form->get('commentStatus')->setAttribute('class', 'form-control'); //for style
+                        $form->get('commentStatus')->setAttribute('id', 'commentStatus'); //for label wrapper
+                        echo $this->formRow($form->get('commentStatus')). PHP_EOL; ?>
+                        <!--<label>Comment Status</label>
+                        <select name='commentStatus' id='commentStatus' class='form-control'>
+                            <option value='close' selected="selected">Close</option>
+                            <option value='open'>Open</option>
+                        </select>-->
+                    </div>
+                </div>
+                <div class='col-xs-12 col-sm-12 col-md-4 col-lg-4'>
+                    <div class="form-group pingStatus">
+                        <?php 
+                        $form->get('pingStatus')->setAttribute('class', 'form-control'); //for style
+                        $form->get('pingStatus')->setAttribute('id', 'pingStatus'); //for label wrapper
+                        echo $this->formRow($form->get('pingStatus')). PHP_EOL; ?>
+                    </div>
+                </div>
+            </div>
+            <div class='row'>
+                <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+                    <div class="form-group postPassword">
+                        <?php 
+                        $form->get('postPassword')->setAttribute('class', 'form-control'); //for style
+                        $form->get('postPassword')->setAttribute('id', 'postPassword'); //for label wrapper
+                        echo $this->formRow($form->get('postPassword')). PHP_EOL; ?>
+                    </div>
+                </div>
+                <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+                    <div class="form-group postName">
+                        <?php 
+                        $form->get('postName')->setAttribute('class', 'form-control'); //for style
+                        $form->get('postName')->setAttribute('id', 'postName'); //for label wrapper
+                        echo $this->formRow($form->get('postName')). PHP_EOL;  ?>
+                    </div>
+                </div>
+            </div>
+            <div class='row'>
+                <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+                    <div class="form-group pinged">
+                        <?php 
+                        $form->get('toPing')->setAttribute('class', 'form-control'); //for style
+                        $form->get('toPing')->setAttribute('id', 'toPing'); //for label wrapper
+                        echo $this->formRow($form->get('toPing')). PHP_EOL;  ?>
+                    </div>
+                </div>
+                <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+                    <div class="form-group pinged">
+                        <?php 
+                        $form->get('pinged')->setAttribute('class', 'form-control'); //for style
+                        $form->get('pinged')->setAttribute('id', 'pinged'); //for label wrapper
+                        echo $this->formRow($form->get('pinged')). PHP_EOL;  ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class='col-xs-12 col-sm-6 col-md-5 col-lg-3'>
+            <!-- Show All Categories -->
+            <div class="form-group category-list-box">
+                <label>Categories</label>
+                <?php //echo $this->categories_html; ?>
+                <table class="table table-hover">
+                    <tbody>
+                        <?php
+                        foreach ($this->categories as $category) {
+                            $selected = '';
+                            if (in_array((int)$category->getTermId(), $this->ownCategoryIds)) {
+                                $selected = 'checked';
+                            }
+                            echo '<tr>';
+                            
+                            echo '<td><input type="checkbox" name="postCategory[]" value="'.$category->getTermId().'" '.$selected.'>';
+                            echo ' '.$category->getName().'</td>' ;
+                            echo '</tr>';
+                        }?>
+                    </tbody>
+                </table>                
+            </div>
+
+            <div class="form-group tags_field">
+                <label for="tags_field">Tags</label>
+                <input name="tags_field" type="text" class="form-control" placeholder="Separate tags with commas (,)" id="tags_field" value="<?php echo $this->tags; ?>">
+            </div>
+
+            <div class="form-group postContentFiltered">
+                <?php 
+                $form->get('postContentFiltered')->setAttribute('class', 'form-control'); //for style
+                $form->get('postContentFiltered')->setAttribute('id', 'postContentFiltered'); //for label wrapper
+                echo $this->formRow($form->get('postContentFiltered')). PHP_EOL;  ?>
+            </div>
+            <div class="form-group postParent">
+                <?php 
+                $form->get('postParent')->setAttribute('class', 'form-control'); //for style
+                $form->get('postParent')->setAttribute('id', 'postParent'); //for label wrapper
+                echo $this->formRow($form->get('postParent')). PHP_EOL;  ?>
+            </div>
+            <div class="form-group guid">
+                <?php 
+                $form->get('guid')->setAttribute('class', 'form-control'); //for style
+                $form->get('guid')->setAttribute('id', 'guid'); //for label wrapper
+                echo $this->formRow($form->get('guid')). PHP_EOL;  ?>
+            </div>
+            <div class="form-group menuOrder">
+                <?php 
+                $form->get('menuOrder')->setAttribute('class', 'form-control'); //for style
+                $form->get('menuOrder')->setAttribute('id', 'menuOrder'); //for label wrapper
+                echo $this->formRow($form->get('menuOrder')). PHP_EOL;  ?>
+            </div>
+            <div class="form-group postMimeType">
+                <?php 
+                $form->get('postMimeType')->setAttribute('class', 'form-control'); //for style
+                $form->get('postMimeType')->setAttribute('id', 'postMimeType'); //for label wrapper
+                echo $this->formRow($form->get('postMimeType')). PHP_EOL; ?>
+            </div>
+            <div class="form-group postType">
+                <?php 
+                $form->get('postType')->setAttribute('class', 'form-control'); //for style
+                $form->get('postType')->setAttribute('id', 'postType'); //for label wrapper
+                echo $this->formRow($form->get('postType')). PHP_EOL;  ?>
+            </div>
+            <div class="form-group commentCount">
+                <?php 
+                $form->get('commentCount')->setAttribute('class', 'form-control'); //for style
+                $form->get('commentCount')->setAttribute('id', 'commentCount'); //for label wrapper
+                echo $this->formRow($form->get('commentCount')). PHP_EOL;  ?>
+            </div>
+        </div>
+    </div>
+
+    <?php echo $this->form()->closeTag(); ?>
+
+    <script>
+        // Replace the <textarea id="editor1"> with a CKEditor
+        // instance, using default configuration.
+        CKEDITOR.replace( 'postContent' );
+        //CKEDITOR.replace('postExcerpt');
+    </script>
+    <!-- for datetime picker -->
+    <script type="text/javascript">
+        $(function() {
+            $('#datetimepicker_postDate').datetimepicker();
+            $('#datetimepicker_postDateGmt').datetimepicker();
+            $('#datetimepicker_postModified').datetimepicker();
+            $('#datetimepicker_postModifiedGmt').datetimepicker();
+        });
+    </script>
+    <!--
+    <script type="text/javascript" src="http://eonasdan.github.io/bootstrap-datetimepicker/scripts/moment-2.4.0.js"></script>
+    <script type="text/javascript" src="http://eonasdan.github.io/bootstrap-datetimepicker/scripts/bootstrap-datetimepicker.js"></script> -->
+    <?php 
+    $this->headScript()->appendFile($this->basePath() . '/js/moment-2.4.0.js');
+    $this->headScript()->appendFile($this->basePath() . '/js/bootstrap-datetimepicker.js');
+    ?>
+<?php } ?>

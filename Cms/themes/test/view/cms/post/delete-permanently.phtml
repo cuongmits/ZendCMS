@@ -1,0 +1,22 @@
+<?php
+$title = 'Delete Post Permanently!';
+$this->headTitle($title);
+if ($this->message == MESSAGE_ANOTHER_USER_IS_WORKING_WITH_ITEM) {
+    echo "<div class='alert alert-danger'>$this->message</div>";
+} else {
+?>
+<h1><?php echo $this->escapeHTML($title); ?></h1>
+
+<p>Are you sure that you want to delete 
+  '<?php echo $this->escapeHTML($this->post->getPostTitle()); ?>' permanently?
+</p>
+<?php 
+$url = $this->url('home/Post', array('action' => 'deletePermanently', 'id'=>$this->post->getId())); ?>
+<form action="<?php echo $url; ?>" method="post">
+<div>
+  <input type="hidden" name="id" value="<?php echo (int)$this->post->getId(); ?>" />
+  <input type="submit" name="del" value="Yes" />
+  <input type="submit" name="del" value="No" />
+</div>
+</form>
+<?php } ?>

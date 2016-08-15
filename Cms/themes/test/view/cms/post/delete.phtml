@@ -1,0 +1,6 @@
+<?php
+$title = 'Delete Post';
+$this->headTitle($title);
+if ($this->message == MESSAGE_ANOTHER_USER_IS_WORKING_WITH_ITEM) {
+    echo "<div class='alert alert-danger'>$this->message</div>";
+} 

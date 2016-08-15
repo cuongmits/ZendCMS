@@ -1,0 +1,43 @@
+<!--
+See http://developer.yahoo.com/ypatterns/pattern.php?pattern=searchpagination
+-->
+<?php //$a = $this->getEvent()->getRouteMatch()->getParam('action', 'index');//->getRouteMatch()->getParam('action', 'publish'); 
+
+//var_dump($this->getHelperPluginManager());
+//var_dump($this->route);
+//var_dump($this->actionName);
+?>
+<?php if ($this->pageCount): ?>
+<div class="btn-group btn-group-xs">
+<!-- Previous page link -->
+<?php if (isset($this->previous)): ?>
+  <a class="btn btn-default" href="<?php echo $this->url($this->route, array('controller' => $this->controller, 'action' => $this->actionName, 'id' => $this->previous));?>">
+    &lt; Previous
+  </a>
+<?php else: ?>
+  <span class="btn btn-default disabled">&lt; Previous</span>
+<?php endif; ?>
+
+<!-- Numbered page links -->
+<?php foreach ($this->pagesInRange as $page): ?>
+  <?php if ($page != $this->current): ?>
+    <a class="btn btn-default" href="<?php echo $this->url($this->route, array('controller' => $this->controller, 'action' => $this->actionName, 'id' => $page));?>">
+        <?php echo $page; ?>
+    </a>
+  <?php else: ?>
+    <span class="btn btn-default disabled">
+    <?php echo $page; ?>
+    </span>
+  <?php endif; ?>
+<?php endforeach; ?>
+
+<!-- Next page link -->
+<?php if (isset($this->next)): ?>
+  <a class="btn btn-default" href="<?php echo $this->url($this->route, array('controller' => $this->controller, 'action' => $this->actionName, 'id' => $this->next)); ?>">
+    Next &gt;
+  </a>
+<?php else: ?>
+  <span class="btn btn-default disabled">Next &gt;</span>
+<?php endif; ?>
+</div>
+<?php endif; ?>

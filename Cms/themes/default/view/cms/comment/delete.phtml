@@ -1,0 +1,27 @@
+<?php
+/**
+ * This file is part of Cms
+ *
+ * (c) 2014 Keon Nguyen <cuongmits@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+$title = 'Delete Comment';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHTML($title); ?></h1>
+
+<p>Are you sure that you want to delete 
+  '<?php echo $this->escapeHTML($this->comment->comment_content); ?>' forever?
+</p>
+<?php 
+$url = $this->url('home/Comment', array('action' => 'delete', 'id'=>$this->id)); ?>
+<form action="<?php echo $url; ?>" method="post">
+<div>
+  <input type="hidden" name="id" value="<?php echo (int)$this->comment->comment_ID; ?>" />
+  <input type="submit" name="del" value="Yes" />
+  <input type="submit" name="del" value="No" />
+</div>
+</form>

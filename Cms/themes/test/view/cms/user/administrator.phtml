@@ -1,0 +1,98 @@
+<?php 
+$this->headScript()
+        ->appendFile($this->basePath() . '/ckeditor/ckeditor.js');
+$title = 'Administrators';
+$this->headTitle($title); 
+?>
+<h1><?php echo $this->escapeHTML($title); ?></h1>
+<div class='row'>
+    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <a href='<?php echo $this->url('home/User', array('action' => 'all', 'controller' => 'User')); ?>'>All</a><small>(<?php echo $this->all_quantity; ?>)</small> 
+        | <strong>Administrator</strong><small>(<?php echo $this->admins_quantity; ?>)</small> 
+        | <a href='<?php echo $this->url('home/User', array('action' => 'editor', 'controller' => 'User')); ?>'>Editor</a><small>(<?php echo $this->editors_quantity; ?>)</small> 
+        | <a href='<?php echo $this->url('home/User', array('action' => 'author', 'controller' => 'User')); ?>'>Author</a><small>(<?php echo $this->authors_quantity; ?>)</small> 
+        | <a href='<?php echo $this->url('home/User', array('action' => 'contributor', 'controller' => 'User')); ?>'>Contributor</a><small>(<?php echo $this->contributors_quantity; ?>)</small>
+        | <a href='<?php echo $this->url('home/User', array('action' => 'subscriber', 'controller' => 'User')); ?>'>Subscriber</a><small>(<?php echo $this->subscribers_quantity; ?>)</small>
+    </div>
+    <div class='col-xs-12 col-sm-6 col-md-6 col-lg-6'>
+        <form class="navbar-form navbar-right">
+            <div class='row'>
+                <div class='col-xs-12 col-sm-12 col-md-6 col-lg-7'>
+                    <input type="text" class="form-control post-search" placeholder="Search...">
+                </div>
+                <div class='col-xs-12 col-sm-12 col-md-6 col-lg-5'>
+                    <input name="submit" type="submit" value="Search Posts" class='btn btn-default'>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="table-responsive">
+  <table class="table table-hover">
+      <thead>
+          <tr>
+              <th><input type="checkbox"></th>
+              <th>Username</th>
+              <th>Name</th>
+              <th>E-mail</th>
+              <th>Role</th>
+              <th>Posts</th>
+              <th>#</th>
+          </tr>
+      </thead>
+      <tfoot>
+          <tr>
+              <th><input type="checkbox"></th>
+              <th>Username</th>
+              <th>Name</th>
+              <th>E-mail</th>
+              <th>Role</th>
+              <th>Posts</th>
+              <th>#</th>
+          </tr>
+      </tfoot>
+      <tbody>
+          <?php
+          foreach ($this->users as $user) {
+              echo '<tr>';
+              echo '<td><input type="checkbox" value="'.$user->getId().'"></td>';
+              echo '<td>'.$user->getUserNicename().'</td>' ;
+              echo '<td>'.$user->getDisplayName().'</td>' ;
+              echo '<td>'.$user->getUserEmail().'</td>' ;
+              echo '<td>';
+              foreach ($user->getUsermetas() as $usermeta) {
+                  if ($usermeta->getMetaKey()=='wp_capabilities') {
+                      if (strpos($usermeta->getMetaValue(), 'administrator') !== false) echo 'Administrator';
+                      elseif (strpos($usermeta->getMetaValue(), 'editor') !== false) echo 'Editor';
+                      elseif (strpos($usermeta->getMetaValue(), 'author') !== false) echo 'Author';
+                      elseif (strpos($usermeta->getMetaValue(), 'contributor') !== false) echo 'Contributor';
+                      elseif (strpos($usermeta->getMetaValue(), 'subscriber') !== false) echo 'Subscriber';
+                      break;
+                  }
+              }
+              echo '</td>' ;
+              echo '<td>';
+              $count = 0;
+              foreach ($user->getPosts() as $post) {
+                  if ($post->getPostType()=='post') $count++;
+              }
+              echo $count;
+              echo '</td>' ; //Post quantity & link to view
+              echo '<td>';
+              echo '<a href="'.$this->url('home/User', array(
+                  'action' => 'edit',
+                  'id' => $user->getId(),
+              )).'">Edit</a>';
+              echo ' | <a href="'.$this->url('home/User', array(
+                  'action' => 'delete',
+                  'id' => $user->getId(),
+              )).'">Delete</a>';
+              echo '</td>'; 
+              echo '</tr>';
+          }?>
+      </tbody>
+  </table>
+<?php 
+echo $this->paginationControl($this->users,'Sliding','search_pagination.phtml',array(
+    'route' => 'home/User', 'controller' => 'User', 'actionName' => 'all')); ?>
+</div>

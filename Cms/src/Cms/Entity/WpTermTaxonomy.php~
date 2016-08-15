@@ -1,0 +1,235 @@
+<?php
+
+namespace Cms\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * WpTermTaxonomy
+ *
+ * @ORM\Table(name="wp_term_taxonomy", uniqueConstraints={@ORM\UniqueConstraint(name="term_id_taxonomy", columns={"term_id", "taxonomy"})}, indexes={@ORM\Index(name="taxonomy", columns={"taxonomy"}), @ORM\Index(name="IDX_C4D725F5E2C35FC", columns={"term_id"})})
+ * @ORM\Entity
+ */
+class WpTermTaxonomy
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="term_taxonomy_id", type="bigint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $termTaxonomyId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="taxonomy", type="string", length=32, nullable=false)
+     */
+    private $taxonomy = '';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", nullable=false)
+     */
+    private $description;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="parent", type="bigint", nullable=false)
+     */
+    private $parent = '0';
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="count", type="bigint", nullable=false)
+     */
+    private $count = '0';
+
+    /**
+     * @var \Cms\Entity\WpTerms
+     *
+     * @ORM\ManyToOne(targetEntity="Cms\Entity\WpTerms")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="term_id", referencedColumnName="term_id")
+     * })
+     */
+    private $term;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Cms\Entity\WpPosts", mappedBy="termTaxonomy")
+     */
+    private $object;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->object = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+
+    /**
+     * Get termTaxonomyId
+     *
+     * @return integer 
+     */
+    public function getTermTaxonomyId()
+    {
+        return $this->termTaxonomyId;
+    }
+
+    /**
+     * Set taxonomy
+     *
+     * @param string $taxonomy
+     * @return WpTermTaxonomy
+     */
+    public function setTaxonomy($taxonomy)
+    {
+        $this->taxonomy = $taxonomy;
+
+        return $this;
+    }
+
+    /**
+     * Get taxonomy
+     *
+     * @return string 
+     */
+    public function getTaxonomy()
+    {
+        return $this->taxonomy;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return WpTermTaxonomy
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set parent
+     *
+     * @param integer $parent
+     * @return WpTermTaxonomy
+     */
+    public function setParent($parent)
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * Get parent
+     *
+     * @return integer 
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * Set count
+     *
+     * @param integer $count
+     * @return WpTermTaxonomy
+     */
+    public function setCount($count)
+    {
+        $this->count = $count;
+
+        return $this;
+    }
+
+    /**
+     * Get count
+     *
+     * @return integer 
+     */
+    public function getCount()
+    {
+        return $this->count;
+    }
+
+    /**
+     * Set term
+     *
+     * @param \Cms\Entity\WpTerms $term
+     * @return WpTermTaxonomy
+     */
+    public function setTerm(\Cms\Entity\WpTerms $term = null)
+    {
+        $this->term = $term;
+
+        return $this;
+    }
+
+    /**
+     * Get term
+     *
+     * @return \Cms\Entity\WpTerms 
+     */
+    public function getTerm()
+    {
+        return $this->term;
+    }
+
+    /**
+     * Add object
+     *
+     * @param \Cms\Entity\WpPosts $object
+     * @return WpTermTaxonomy
+     */
+    public function addObject(\Cms\Entity\WpPosts $object)
+    {
+        $this->object[] = $object;
+
+        return $this;
+    }
+
+    /**
+     * Remove object
+     *
+     * @param \Cms\Entity\WpPosts $object
+     */
+    public function removeObject(\Cms\Entity\WpPosts $object)
+    {
+        $this->object->removeElement($object);
+    }
+
+    /**
+     * Get object
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getObject()
+    {
+        return $this->object;
+    }
+}

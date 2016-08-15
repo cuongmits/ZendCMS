@@ -1,0 +1,97 @@
+<?php 
+$title = 'Tags';
+$this->headTitle($title);
+if ($this->message == MESSAGE_ITEM_ALREADY_EXISTS) {
+    echo "<div class='alert alert-danger'>$this->message</div>";
+} elseif ($this->message == MESSAGE_SUCCESS) {
+    echo "<div class='alert alert-success'>$this->message</div>";
+}?>
+<h1><?php echo $this->escapeHTML($title); ?></h1>
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url( 'home/Tag', array('action' => 'index',)));
+$form->prepare(); 
+//var_dump($this->tags_html);
+?>
+
+<div class='row'>
+    <div class='col-xs-12 col-sm-5 col-md-5 col-lg-4'>
+        <?php 
+        echo $this->form()->openTag($form). PHP_EOL; ?>
+        <div class="form-group name">
+            <?php 
+            $form->get('name')->setAttribute('class', 'form-control'); //for style
+            $form->get('name')->setAttribute('id', 'name'); //for label wrapper
+            echo $this->formRow($form->get('name')). PHP_EOL; 
+            echo "<em>".$form->get('name')->getOptions()['description']."</em>". PHP_EOL; ?>
+        </div>         
+        <div class="form-group slug">
+            <?php 
+            $form->get('slug')->setAttribute('class', 'form-control'); //for style
+            $form->get('slug')->setAttribute('id', 'slug'); //for label wrapper
+            echo $this->formRow($form->get('slug')). PHP_EOL; 
+            echo "<em>".$form->get('slug')->getOptions()['description']."</em>". PHP_EOL; ?>
+        </div>
+        <div class="form-group description">
+            <?php 
+            $form->get('description')->setAttribute('class', 'form-control'); //for style
+            $form->get('description')->setAttribute('id', 'description'); //for label wrapper
+            echo $this->formRow($form->get('description')). PHP_EOL; 
+            echo "<em>".$form->get('description')->getOptions()['description']."</em>". PHP_EOL;?>
+        </div>
+        <div class="form-group element_submit">
+            <?php 
+            $form->get('submit')->setAttribute('class', 'btn btn-default'); //for style
+            echo $this->formRow($form->get('submit')). PHP_EOL; ?>
+        </div>
+        <?php echo $this->form()->closeTag(); ?>
+    </div>
+    <div class='col-xs-12 col-sm-7 col-md-7 col-lg-8'>
+        <form action="#" method="POST" name="DeleteTagForm" id="DeleteTagForm">
+            <div class="form-group category-list-box">
+                <?php //echo $this->tags_html; ?>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox"></th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Slug</th>
+                            <th>Posts</th>
+                            <th>#</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        foreach ($this->tags as $tag) {
+                            echo '<tr>';
+                            echo '<td><input type="checkbox" value="'.$tag->getTermId().'"></td>';
+                            echo '<td>'.$tag->getName().'</td>' ;
+                            $termTaxonomy;
+                            foreach ($tag->getTermTaxonomies() as $termTaxonomyItem) {
+                                if ($termTaxonomyItem->getTaxonomy()=='post_tag') 
+                                    $termTaxonomy = $termTaxonomyItem;
+                            }
+                            echo '<td>'.$termTaxonomy->getDescription().'</td>';
+                            echo '<td>'.$tag->getSlug().'</td>' ;
+                            echo '<td>'.$termTaxonomy->getCount().'</td>' ;
+                            echo '<td>'
+                            . '<a href="'.$this->url('home/Tag', array(
+                                'action' => 'edit', 'id' => $tag->getTermId()
+                            )).'">Edit</a>'
+                            . ' | <a href="'.$this->url('home/Tag', array(
+                                'action' => 'delete', 'id' => $tag->getTermId()
+                            )).'">Delete</a>'
+                            . ' | <a target="_blank" href="'.$this->url('home').$termTaxonomy->getTerm()->getSlug().'">View</a>'
+                            . '</td>';
+                            echo '</tr>';
+                        }?>
+                    </tbody>
+                </table>
+                <!--<input name="submit" type="submit" class="btn btn-default" value="Delete Tag(s)">-->
+            </div>
+        </form>
+    </div>
+</div>
+
+        
